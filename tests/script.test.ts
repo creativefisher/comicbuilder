@@ -68,3 +68,11 @@ describe("buildImagePrompt", () => {
     expect(p).toContain("no text");
   });
 });
+
+describe("style presets", () => {
+  it("keeps full-length style prompts", () => {
+    const style = "modern American comic book art, bold clean ink lines, vibrant flat colors, dynamic shading";
+    const r = validateRequest({ idea: "a long enough idea", style });
+    expect(r.ok && r.value.style).toBe(style);
+  });
+});
