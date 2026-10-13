@@ -32,12 +32,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ params, env, request }
     const out: any = await env.AI.run(IMAGE_MODEL as any, {
       prompt: buildImagePrompt(comic.script, scene),
       steps: 6,
-      seed: Math.floor(Math.random() * 1e9),
     } as any);
     if (!out?.image) throw new Error("no image returned");
     const bytes = Uint8Array.from(atob(out.image), (c) => c.charCodeAt(0));
-    await env.COMICS.put(imageKey(comic.id, slot), bytes, { expirationTtl: LIMITS.comicTtlSeconds });
     const version = Date.now();
+    await env.COMICS.put(imageKey(comic.id, slot), bytes, { expirationTtl: LIMITS.comicTtlSeconds, metadata: { v: version } });
     const fresh = (await loadComic(env, comic.id)) ?? comic; // re-read to limit lost updates from parallel panels
     fresh.images = { ...(fresh.images || {}), [slot]: version };
     fresh.imageCount = (fresh.imageCount || 0) + 1;

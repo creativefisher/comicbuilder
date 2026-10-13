@@ -32,7 +32,7 @@ export function validateRequest(body: unknown): { ok: true; value: ComicRequest 
     ok: true,
     value: {
       idea, pages, panelsPerPage,
-      style: str(b.style, 80, "modern American comic, bold ink, vibrant colors") || "modern American comic, bold ink, vibrant colors",
+      style: str(b.style, 200, "modern American comic, bold ink, vibrant colors") || "modern American comic, bold ink, vibrant colors",
       genre: str(b.genre, 40, "adventure") || "adventure",
       characters: str(b.characters, 500),
     },
@@ -103,7 +103,7 @@ ${req.characters ? `Characters requested: ${req.characters}\n` : ""}Exactly ${re
 Rules:
 - "characters": 1-4 main characters with a detailed, fixed visual description (age, build, hair, clothing, colors) reused for consistency.
 - Each panel "scene" is a visual description for an illustrator: who is in it (by name), action, setting, camera angle. No text in images.
-- "caption": optional short narration (max 20 words). "dialogue": 0-2 short lines (max 15 words each) with "speaker".
+- "caption": short narration (max 20 words) where useful. "dialogue": most panels should have 1-2 natural, characterful lines (max 15 words each) with "speaker".
 - Tell a complete story with a beginning, middle and satisfying ending.
 Respond with ONLY a JSON object of the form:
 {"title":"...","logline":"...","cover":"visual description of the cover image","characters":[{"name":"...","description":"..."}],"pages":[{"panels":[{"scene":"...","caption":"...","dialogue":[{"speaker":"...","text":"..."}]}]}]}`;
